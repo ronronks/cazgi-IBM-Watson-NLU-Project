@@ -3,6 +3,8 @@ import './App.css';
 import EmotionTable from './EmotionTable.js';
 import React from 'react';
 
+// base_url = 'http://localhost:8080/';
+
 class App extends React.Component {
   /*
   We are setting the component as a state named innercomp.
@@ -42,20 +44,28 @@ class App extends React.Component {
     let url = ".";
     let mode = this.state.mode
     url = url+"/" + mode + "/sentiment?"+ mode + "="+document.getElementById("textinput").value;
-
+    console.log(url);
     fetch(url).then((response)=>{
-        response.json().then((data)=>{
-        this.setState({sentimentOutput:data.label});
-        let output = data.label;
-        let color = "white"
-        switch(output) {
-          case "positive": color = "black";break;
-          case "negative": color = "black";break;
-          default: color = "black";
-        }
-        output = <div style={{color:color,fontSize:20}}>{output}</div>
-        this.setState({sentimentOutput:output});
-      })});
+      console.log(response);
+      
+
+      response.json().then((data)=>{
+        console.log(data);
+      this.setState({sentimentOutput:data.label});
+
+      let output = data.label;
+      console.log("data:"+output);
+      let color = "white"
+      switch(output) {
+        case "positive": color = "green";break;
+        case "negative": color = "red";break;
+        default: color = "yellow";
+      }
+      output = <div style={{color:color,fontSize:60}}>{output}</div>
+      console.log(output);
+      this.setState({sentimentOutput:output});
+    })
+  });
   }
 
   sendForEmotionAnalysis = () => {
